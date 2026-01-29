@@ -1,29 +1,83 @@
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
-  <title>Toko Online</title>
-  <style>
-    body { font-family: Arial; background:#f2f2f2; }
-    h1 { text-align:center; background:#2196f3; color:white; padding:15px; }
-    .produk { background:white; margin:15px; padding:15px; border-radius:10px; }
-    button { background:#2196f3; color:white; border:none; padding:10px; }
-  </style>
+<meta charset="UTF-8">
+<title>FLUEMINITI</title>
+<style>
+body { font-family: Arial; background:#f2f2f2; margin:0; }
+header {
+  background:#2196f3; color:white; padding:15px; text-align:center;
+}
+.produk, .keranjang {
+  background:white; margin:15px; padding:15px; border-radius:10px;
+}
+button {
+  background:#2196f3; color:white; border:none;
+  padding:8px 12px; border-radius:5px;
+}
+button.hapus { background:red; }
+</style>
 </head>
+
 <body>
 
-<h1>Toko Online Rendy</h1>
+<header>
+  <h1>FLUEMINITI</h1>
+  <p>Keranjang: <span id="jumlah">0</span> item</p>
+</header>
 
 <div class="produk">
-  <h3>Kaos</h3>
+  <h3>GUNS</h3>
   <p>Rp 50.000</p>
-  <button onclick="alert('Produk dibeli')">Beli</button>
+  <button onclick="tambah('Kaos',50000)">Tambah</button>
 </div>
 
 <div class="produk">
-  <h3>Sepatu</h3>
+  <h3>MASK</h3>
   <p>Rp 250.000</p>
-  <button onclick="alert('Produk dibeli')">Beli</button>
+  <button onclick="tambah('Sepatu',250000)">Tambah</button>
 </div>
+
+<div class="produk">
+  <h3>TAS RANSEL</h3>
+  <p>Rp 150.000</p>
+  <button onclick="tambah('Tas',150000)">Tambah</button>
+</div>
+
+<div class="keranjang">
+  <h2>Keranjang Belanja</h2>
+  <ul id="list"></ul>
+  <p><b>Total: Rp <span id="total">0</span></b></p>
+</div>
+
+<script>
+let keranjang = [];
+let total = 0;
+
+function tambah(nama, harga) {
+  keranjang.push({nama, harga});
+  total += harga;
+  render();
+}
+
+function hapus(i) {
+  total -= keranjang[i].harga;
+  keranjang.splice(i,1);
+  render();
+}
+
+function render() {
+  let list = document.getElementById("list");
+  list.innerHTML = "";
+  keranjang.forEach((item,i)=>{
+    list.innerHTML += `
+      <li>${item.nama} - Rp ${item.harga}
+      <button class="hapus" onclick="hapus(${i})">X</button></li>`;
+  });
+  document.getElementById("total").innerText = total;
+  document.getElementById("jumlah").innerText = keranjang.length;
+}
+</script>
 
 </body>
 </html>
